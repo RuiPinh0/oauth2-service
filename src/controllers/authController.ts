@@ -75,7 +75,7 @@ export class AuthController {
 
       this.sendTokenResponse(res, token, tokenRequest.scope);
     } catch (error) {
-      this.processErrorResponse(res, error);
+      this.processErrorResponse(res, error as Error);
     }
   }
 
