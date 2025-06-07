@@ -8,12 +8,12 @@ export class AuthController {
     
     constructor(private authService: AuthService) { }
     /**
-     * Handles the OAuth2 token request.
-     * Validates the request, issues a token if valid, or returns an error response.
-     * 
-     * @param req - The request object containing client credentials and grant type.
-     * @param res - The response object to send the token or error response.
-     */
+    * Handles the OAuth2 token request.
+    * Validates the request, issues a token if valid, or returns an error response.
+    * 
+    * @param req - The request object containing client credentials and grant type.
+    * @param res - The response object to send the token or error response.
+    */
     public async handleTokenRequest(req: Request, res: Response): Promise<void> {
 
         const authHeader = req.headers.authorization;
@@ -38,7 +38,7 @@ export class AuthController {
 
         try {
             // Validate Content-Type header to meet OAuth2 requirements
-            if (req.headers['content-type'] !== 'application/x-www-form-urlencoded') {
+            if (!req.headers['content-type'] || !req.headers['content-type'].startsWith('application/x-www-form-urlencoded')) {
                 throw new ValidationError('Content-Type must be application/x-www-form-urlencoded');
             }
             // Validate the token grant type
@@ -94,7 +94,7 @@ export class AuthController {
             } else {
                 res.status(500).json({
                     error: 'server_error',
-                    error_description: 'An internal server error occurred'
+                    error_description: error.message
                 });
             }
     }

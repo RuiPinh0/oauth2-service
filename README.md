@@ -24,28 +24,53 @@ A Node.js (TypeScript) backend service that issues OAuth2-compatible tokens usin
    npm run localstack:setup
    ```
 
-3. Verify EC2 is running:
-   ```
-   aws ec2 --endpoint-url=http://localhost:4566 describe-instances
-   ```
+4. Test the endpoint with the following examples
 
-### Test the project 
+    ```sh
+    curl --location 'http://localhost:3000/oauth/token' \
+    --header 'Content-Type: application/x-www-form-urlencoded' \
+    --data-urlencode 'grant_type=client_credentials' \
+    --data-urlencode 'client_id=client1' \
+    --data-urlencode 'client_secret=dummysecret1' \
+    --data-urlencode 'scope=default'
+    ```
 
-1. Clone the repo and install dependencies:
-   ```
-   npm install
-   ```
+or 
 
-2. Run locally (EC2 mode):
-   ```
-   npm run build
-   npm start
-   ```
+    ```sh
+    curl --location --request POST 'http://localhost:3000/oauth/token' \
+    --header 'Content-Type: application/x-www-form-urlencoded' \
+    --header 'grant_type: client_credentials' \
+    --header 'client_id: client1' \
+    --header 'client_secret: dummysecret1'
+    ```
 
-3. Run tests:
-   ```
-   npm test
-   ```
+    
+## Testing
+
+This project includes both integration and unit tests for the OAuth2 token endpoint and authentication logic.
+
+### Run All Tests
+
+```sh
+npm test
+```
+
+### Example Tests
+
+#### Integration Test for `/oauth/token` Endpoint
+
+- Returns a token for valid credentials
+- Returns 401 for invalid credentials
+- Returns 400 for missing or unsupported grant type
+- Returns 400 for wrong content-type
+
+#### Unit Tests
+
+- Credential and scope validation in AuthService
+- Token issuance logic (with KMS mocked)
+
+Test files are located in the `tests/` directory.
 
 
 ## Deployment
