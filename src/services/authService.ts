@@ -55,9 +55,6 @@ export class AuthService {
         if (!clientSecret || typeof clientSecret !== 'string') {
             throw new ValidationError('Invalid client secret');
         }
-        if (!this.validCredentials || !this.validCredentials[clientId]) {
-            throw new ValidationError('Invalid client credentials');
-        }
         const client = this.validCredentials[clientId];
         return !!client && client.secret === clientSecret;    
     }

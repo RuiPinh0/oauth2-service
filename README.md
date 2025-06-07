@@ -5,24 +5,31 @@
 A Node.js (TypeScript) backend service that issues OAuth2-compatible tokens using the Client Credentials Grant (RFC 6749). Deployable to AWS Lambda (API Gateway) or EC2. Token signing uses AWS KMS if configured, otherwise a local secret.
 
 ## Setup
-### Make sure you have Docker installed on you local machine
+### start creating you AWS LocalStack instance
 
-1. Start LocalStack:
+1. Clone the repo and install dependencies:
+   ```
+   git clone https://github.com/RuiPinh0/oauth2-service.git
+   ```
+
+2. Initialize all components with docker:
    ```
    npm run localstack:start
    ```
 
-2. Initialize services:
+3. In case of restarting a new LocalStack instance and consequentially a new KMS KeyId is generated,you MUST run 'setup' and re-build the oauth-app and re-run previous command like:
    ```
+   docker-compose up setup
+   docker-compose build oauth2-app
    npm run localstack:setup
    ```
 
-3. Verify setup:
+3. Verify EC2 is running:
    ```
-   aws --endpoint-url=http://localhost:4566 secretsmanager list-secrets
+   aws ec2 --endpoint-url=http://localhost:4566 describe-instances
    ```
 
-### Otherwise run locally like:
+### Test the project 
 
 1. Clone the repo and install dependencies:
    ```
@@ -41,17 +48,8 @@ A Node.js (TypeScript) backend service that issues OAuth2-compatible tokens usin
    ```
 
 
-
-{
-  "client1": { "secret": "secret1", "scopes": ["default"] },
-  "client2": { "secret": "secret2", "scopes": ["default"] }
-}
-
-
 ## Deployment
-
-- **Lambda:** Package and deploy using `cloudformation/lambda-template.yaml`.
-- **EC2:** Launch using `cloudformation/ec2-template.yaml`.
+- **EC2:** Launch using `cloudformation/ec2.yaml`.
 
 ## Shortcuts
 

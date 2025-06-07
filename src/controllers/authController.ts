@@ -16,11 +16,6 @@ export class AuthController {
      */
     public async handleTokenRequest(req: Request, res: Response): Promise<void> {
 
-        // Validate Content-Type header to meet OAuth2 requirements
-        if (req.headers['content-type'] !== 'application/x-www-form-urlencoded') {
-            throw new ValidationError('Content-Type must be application/x-www-form-urlencoded');
-        }
-        
         const authHeader = req.headers.authorization;
         let clientId: string | undefined;
         let clientSecret: string | undefined;
@@ -42,15 +37,20 @@ export class AuthController {
         };
 
         try {
+            // Validate Content-Type header to meet OAuth2 requirements
+            if (req.headers['content-type'] !== 'application/x-www-form-urlencoded') {
+                throw new ValidationError('Content-Type must be application/x-www-form-urlencoded');
+            }
+            // Validate the token grant type
             if (tokenRequest.grantType !== 'client_credentials') {
-                throw new ValidationError('unsupported_grant_type');
+                throw new ValidationError('unsupported_grant_type: ' + tokenRequest.grantType);
             }
             await this.authService.initialize();
             if (!this.authService.validateScope(tokenRequest.clientId, tokenRequest.scope)) {
                 throw new UnauthorizedError('Invalid access scope');
             }
 
-            if (this.authService.validateCredentials(tokenRequest.clientId, tokenRequest.clientSecret)) {
+            if (!this.authService.validateCredentials(tokenRequest.clientId, tokenRequest.clientSecret)) {
                 throw new UnauthorizedError('Invalid client credentials');
             }
 

@@ -11,7 +11,7 @@ Resources:
           #!/bin/bash
           curl -sL https://rpm.nodesource.com/setup_18.x | bash -
           yum install -y nodejs git
-          git clone https://github.com/your-repo/oauth2-service.git
+          git clone https://github.com/RuiPinh0/oauth2-service.git
           cd oauth2-service
           npm install
           npm run build

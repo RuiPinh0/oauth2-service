@@ -6,6 +6,8 @@ COPY package*.json ./
 RUN npm install
 
 COPY . .
+# Make entrypoint script executable
+RUN chmod +x ./scripts/setup-localstack.sh
 
 RUN npm run build
 

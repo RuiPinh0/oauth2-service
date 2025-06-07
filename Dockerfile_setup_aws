@@ -1,0 +1,8 @@
+FROM python:3.11-slim
+
+RUN pip install awscli
+
+WORKDIR /app
+
+ENTRYPOINT ["/bin/sh"]
+CMD ["/app/scripts/setup-localstack.sh"]
