@@ -21,4 +21,3 @@ This project follows **Separation of Concerns** and the **KISS** principles:
 2. Service validates credentials.
 3. Service issues JWT access token (signed with KMS or local secret).
 4. Token returned in OAuth2-compatible format.
-

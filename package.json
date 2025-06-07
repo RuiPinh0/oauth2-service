@@ -8,7 +8,9 @@
     "test": "jest",
     "localstack:start": "docker-compose up -d",
     "localstack:stop": "docker-compose down",
-    "localstack:setup": "bash scripts/setup-localstack.sh"
+    "localstack:setup": "bash scripts/setup-localstack.sh",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "",

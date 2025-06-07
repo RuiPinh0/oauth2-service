@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Resources:
   OAuth2Instance:
     Type: AWS::EC2::Instance
