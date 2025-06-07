@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: KMS key for OAuth2 token signing
+
+Resources:
+  OAuthKmsKey:
+    Type: AWS::KMS::Key
+    Properties:
+      Description: OAuth Token Signing Key
+      Enabled: true
+      KeyUsage: SIGN_VERIFY
+      KeySpec: RSA_2048
+
+Outputs:
+  KmsKeyId:
+    Description: KMS Key ID for OAuth2 token signing
+    Value: !Ref OAuthKmsKey

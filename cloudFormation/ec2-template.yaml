@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  OAuth2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0abcdef1234567890 # Use latest Amazon Linux 2 AMI
+      InstanceType: t3.micro
+      SecurityGroupIds: [!Ref OAuth2SG]
+      UserData:
+        Fn::Base64: |
+          #!/bin/bash
+          curl -sL https://rpm.nodesource.com/setup_18.x | bash -
+          yum install -y nodejs git
+          git clone https://github.com/your-repo/oauth2-service.git
+          cd oauth2-service
+          npm install
+          npm run build
+          npm start
+  OAuth2SG:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3000
+          ToPort: 3000
+          CidrIp: 0.0.0.0/0
