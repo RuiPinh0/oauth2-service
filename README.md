@@ -2,7 +2,7 @@
 
 ## Overview
 
-A Node.js (TypeScript) backend service that issues OAuth2-compatible tokens using the Client Credentials Grant (RFC 6749). Deployable to AWS Lambda (API Gateway) or EC2. Token signing uses AWS KMS if configured, otherwise a local secret.
+A Node.js (TypeScript) backend service that issues OAuth2-compatible tokens using the Client Credentials Grant (RFC 6749). Deployable in EC2 and using client credentials from AWS Secret Manager service, could/should be twards a encrypted DB, but for simplicity this was the choosen method. Token signing uses AWS KMS with standart encrypton algorithm.
 
 ## Setup
 
@@ -25,7 +25,7 @@ A Node.js (TypeScript) backend service that issues OAuth2-compatible tokens usin
    ```
    docker-compose up setup
    docker-compose build oauth2-app
-   npm run localstack:setup
+   npm run localstack:start
    ```
 
 4. Test the endpoint with the following examples
@@ -42,11 +42,10 @@ A Node.js (TypeScript) backend service that issues OAuth2-compatible tokens usin
 or
 
     ```sh
-    curl --location --request POST 'http://localhost:3000/oauth/token' \
-    --header 'Content-Type: application/x-www-form-urlencoded' \
-    --header 'grant_type: client_credentials' \
-    --header 'client_id: client1' \
-    --header 'client_secret: dummysecret1'
+   curl --location 'http://localhost:3000/oauth/token' \
+   --header 'Content-Type: application/x-www-form-urlencoded' \
+   --header 'Authorization: Basic Y2xpZW50MTpkdW1teXNlY3JldDE=' \
+   --data-urlencode 'grant_type=client_credentials'
     ```
 
 ## Testing

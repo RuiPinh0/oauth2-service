@@ -7,7 +7,7 @@ echo "Waiting for LocalStack to be ready..."
 export AWS_ACCESS_KEY_ID=test
 export AWS_SECRET_ACCESS_KEY=test123supersafe
 export AWS_DEFAULT_REGION=us-east-1
-export AWS_SM_ENDPOINT=http://localhost:4566
+export AWS_SM_ENDPOINT=http://localstack:4566
 export AWS_REGION=us-east-1
 
 # Deploy KMS key
